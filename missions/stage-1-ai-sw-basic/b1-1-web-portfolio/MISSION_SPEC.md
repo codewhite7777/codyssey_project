@@ -12,7 +12,7 @@
 | 원문 | `source/assignment.md` |
 | 제출 repo | https://github.com/codewhite7777/codyssey-b1-portfolio / 브랜치 `main` |
 | 배포 URL | https://codewhite7777.github.io/codyssey-b1-portfolio/ — **하위 경로 배포이므로 자산은 전부 상대경로** |
-| 상태 | 설계 확정 · 골격 배포됨 · 구현 대기 |
+| 상태 | **구현 완료 · 검증 중** |
 
 ---
 
@@ -53,96 +53,96 @@
 
 | R-ID | 요구사항 | 구현 위치 | V | C | E |
 |---|---|---|---|---|---|
-| R-1 | `index.html` / `css/` / `js/` / `images/`로 역할이 분리된 폴더 구조 | `repo/` | V-1 | C-16 | E-2.1 |
-| R-2 | 외부 스타일시트와 JS 파일이 HTML에 올바르게 연결됨 | `index.html:9-10` | V-1 | C-16 | — |
-| R-3 | VS Code + Live Server로 실시간 개발 환경 구성 | | V-2 | C-16 | — |
+| R-1 | `index.html` / `css/` / `js/` / `images/`로 역할이 분리된 폴더 구조 | `index.html:35` | V-1 | C-16 | E-2.1 |
+| R-2 | 외부 스타일시트와 JS 파일이 HTML에 올바르게 연결됨 | `index.html:36` | V-1 | C-16 | — |
+| R-3 | VS Code + Live Server로 실시간 개발 환경 구성 | README.md (로컬 실행) | V-2 | C-16 | — |
 
 ### B. HTML 시맨틱 마크업
 
 | R-ID | 요구사항 | 구현 위치 | V | C | E |
 |---|---|---|---|---|---|
-| R-4 | `header`/`nav`/`main`/`section`/`article`/`footer` 사용, div 래핑만으로 구성하지 않음 | | V-6 | C-1 | E-2.1, E-3.1 |
-| R-5 | Hero 섹션 (인사말 + CTA 버튼) | | V-6 | C-1 | E-1.1 |
-| R-6 | About 섹션 (자기소개 + 프로필 이미지) | | V-6 | C-1 | E-1.1 |
-| R-7 | Skills 섹션 (기술 스택 목록) | | V-6 | C-1 | E-1.1 |
-| R-8 | Projects 섹션 (GitHub API 카드 영역) | | V-6 | C-1 | E-1.1 |
-| R-9 | Contact 섹션 (문의 폼) | | V-6 | C-1 | E-1.1 |
-| R-10 | Footer (저작권 + 소셜 링크) | | V-6 | C-1 | E-1.1 |
-| R-11 | 네비게이션에 각 섹션 앵커 링크 존재 | | V-12 | C-1 | — |
-| R-12 | 모든 `<img>`에 의미 있는 `alt` | | V-7 | C-1 | E-3.1 |
-| R-13 | 폼 `<label for>` ↔ `<input id>` 매칭 | | V-8 | C-1 | E-3.1 |
+| R-4 | `header`/`nav`/`main`/`section`/`article`/`footer` 사용, div 래핑만으로 구성하지 않음 | `index.html:48` `index.html:78` 외 1 | V-6 | C-1 | E-2.1, E-3.1 |
+| R-5 | Hero 섹션 (인사말 + CTA 버튼) | `index.html:81` | V-6 | C-1 | E-1.1 |
+| R-6 | About 섹션 (자기소개 + 프로필 이미지) | `index.html:97` | V-6 | C-1 | E-1.1 |
+| R-7 | Skills 섹션 (기술 스택 목록) | `index.html:125` | V-6 | C-1 | E-1.1 |
+| R-8 | Projects 섹션 (GitHub API 카드 영역) | `index.html:139` | V-6 | C-1 | E-1.1 |
+| R-9 | Contact 섹션 (문의 폼) | `index.html:152` | V-6 | C-1 | E-1.1 |
+| R-10 | Footer (저작권 + 소셜 링크) | `index.html:193` | V-6 | C-1 | E-1.1 |
+| R-11 | 네비게이션에 각 섹션 앵커 링크 존재 | `index.html:54` | V-12 | C-1 | — |
+| R-12 | 모든 `<img>`에 의미 있는 `alt` | `index.html:101` | V-7 | C-1 | E-3.1 |
+| R-13 | 폼 `<label for>` ↔ `<input id>` 매칭 | `index.html:161` | V-8 | C-1 | E-3.1 |
 
 ### C. CSS 레이아웃 & 반응형
 
 | R-ID | 요구사항 | 구현 위치 | V | C | E |
 |---|---|---|---|---|---|
-| R-14 | 외부 스타일시트 `css/style.css` 사용 | | V-1 | C-16 | — |
-| R-15 | `:root`에 색상·폰트·간격 CSS 변수 정의 | | V-15 | C-7 | E-2.3 |
-| R-16 | `[data-theme="dark"]`에 다크 모드 변수 별도 정의 | | V-15 | C-7 | E-2.3 |
-| R-17 | 네비게이션 = **Flexbox** (로고 왼쪽 / 메뉴 오른쪽) | | V-9 | C-2 | E-2.2, E-3.2 |
-| R-18 | Projects 카드 = **Grid** `repeat(auto-fit, minmax(...))` | | V-9 | C-2 | E-2.2, E-3.2 |
-| R-19 | 모바일 퍼스트 작성 (기본 스타일 = 모바일, `min-width`로 확장) | | V-9 | C-8 | E-2.2 |
-| R-20 | 브레이크포인트 768px(태블릿) / 1024px(데스크톱) | | V-9 | C-8 | E-2.2 |
-| R-21 | 모바일에서 nav 숨김 + 햄버거 버튼 노출 | | V-10 | C-8 | E-1.2 |
-| R-22 | 버튼·카드 hover 효과 + `transition` 적용 | | V-9 | C-15 | — |
-| R-23 | 카드에 `box-shadow` 적용 | | V-9 | C-15 | — |
+| R-14 | 외부 스타일시트 `css/style.css` 사용 | `index.html:36` | V-1 | C-16 | — |
+| R-15 | `:root`에 색상·폰트·간격 CSS 변수 정의 | `css/style.css:15` | V-15 | C-7 | E-2.3 |
+| R-16 | `[data-theme="dark"]`에 다크 모드 변수 별도 정의 | `css/style.css:68` | V-15 | C-7 | E-2.3 |
+| R-17 | 네비게이션 = **Flexbox** (로고 왼쪽 / 메뉴 오른쪽) | `css/style.css:172` | V-9 | C-2 | E-2.2, E-3.2 |
+| R-18 | Projects 카드 = **Grid** `repeat(auto-fit, minmax(...))` | `css/style.css:375` | V-9 | C-2 | E-2.2, E-3.2 |
+| R-19 | 모바일 퍼스트 작성 (기본 스타일 = 모바일, `min-width`로 확장) | `index.html:5` `css/style.css:524` | V-9 | C-8 | E-2.2 |
+| R-20 | 브레이크포인트 768px(태블릿) / 1024px(데스크톱) | `css/style.css:524` | V-9 | C-8 | E-2.2 |
+| R-21 | 모바일에서 nav 숨김 + 햄버거 버튼 노출 | `index.html:69` `css/style.css:195` 외 1 | V-10 | C-8 | E-1.2 |
+| R-22 | 버튼·카드 hover 효과 + `transition` 적용 | `css/style.css:290` `css/style.css:300` | V-9 | C-15 | — |
+| R-23 | 카드에 `box-shadow` 적용 | `css/style.css:394` | V-9 | C-15 | — |
 
 ### D. JavaScript 기초 (DOM & 이벤트)
 
 | R-ID | 요구사항 | 구현 위치 | V | C | E |
 |---|---|---|---|---|---|
-| R-24 | `<script defer>`로 JS 연결 | | V-1 | C-3 | E-3.2 |
-| R-25 | `var` 없이 `const`/`let`만 사용 | | V-3 | C-4 | — |
-| R-26 | 모든 이벤트를 `addEventListener`로 연결 (`onclick` 속성 0건) | | V-4 | C-3 | E-3.2 |
-| R-27 | `querySelector` / `querySelectorAll`로 요소 선택 | | V-23 | C-3 | E-3.2 |
-| R-28 | `textContent` / `innerHTML`로 내용 변경 | | V-23 | C-3, C-13 | E-4.2 |
-| R-29 | `classList.add` / `remove` / `toggle`로 클래스 조작 | | V-23 | C-3 | E-2.3 |
-| R-30 | `click` / `submit` / `scroll` / `input` 4종 이벤트 처리 | | V-23 | C-3 | E-3.2 |
-| R-31 | `event.preventDefault()`로 기본 동작 방지 | | V-17 | C-3 | E-3.2 |
+| R-24 | `<script defer>`로 JS 연결 | `index.html:39` | V-1 | C-3 | E-3.2 |
+| R-25 | `var` 없이 `const`/`let`만 사용 | `js/main.js:5` | V-3 | C-4 | — |
+| R-26 | 모든 이벤트를 `addEventListener`로 연결 (`onclick` 속성 0건) | `js/main.js:7` | V-4 | C-3 | E-3.2 |
+| R-27 | `querySelector` / `querySelectorAll`로 요소 선택 | `js/utils.js:8` | V-23 | C-3 | E-3.2 |
+| R-28 | `textContent` / `innerHTML`로 내용 변경 | `js/form.js:98` | V-23 | C-3, C-13 | E-4.2 |
+| R-29 | `classList.add` / `remove` / `toggle`로 클래스 조작 | `js/scroll.js:49` `js/nav.js:40` | V-23 | C-3 | E-2.3 |
+| R-30 | `click` / `submit` / `scroll` / `input` 4종 이벤트 처리 | `js/scroll.js:22` `js/form.js:52` | V-23 | C-3 | E-3.2 |
+| R-31 | `event.preventDefault()`로 기본 동작 방지 | `js/form.js:74` | V-17 | C-3 | E-3.2 |
 
 ### E. 인터랙션
 
 | R-ID | 요구사항 | 구현 위치 | V | C | E |
 |---|---|---|---|---|---|
-| R-32 | 햄버거 버튼 클릭 → 메뉴 표시, 재클릭 → 숨김 (`classList.toggle('active')`) | | V-11 | C-6 | E-1.2 |
-| R-33 | nav 메뉴 클릭 시 해당 섹션으로 **부드러운 스크롤** | | V-12 | C-11 | E-1.2 |
-| R-34 | 스크롤 **300px** 이상에서 탑 버튼 표시, 클릭 시 최상단 이동 (임계값 README 명시) | | V-13 | C-11 | E-1.2 |
-| R-35 | 스크롤 **60px** 이상에서 nav 배경색 변경 (임계값 README 명시) | | V-14 | C-11 | E-1.2 |
-| R-36 | 다크 모드 토글 버튼으로 테마 전환 | | V-15 | C-7 | E-2.3 |
-| R-37 | 테마 설정이 **localStorage**에 저장되어 새로고침 후 유지 | | V-15 | C-7 | E-3.6 |
-| R-38 | Intersection Observer로 스크롤 애니메이션 (threshold **0.2 이상**, README 명시) | | V-16 | C-9 | E-4.5 |
-| R-39 | Contact 폼 3필드 존재 (이름 / 이메일 / 메시지) | | V-17 | C-12 | E-1.5 |
-| R-40 | 필수값 검증 — 빈 필드 제출 불가 | | V-17 | C-6, C-12 | E-2.5 |
-| R-41 | 이메일 형식 검증 | | V-17 | C-6, C-12 | E-2.5 |
-| R-42 | 에러 메시지가 **해당 입력 필드 근처**에 표시 | | V-17 | C-6, C-12 | E-2.5 |
-| R-43 | 제출 시 `preventDefault()` + 성공 메시지 표시 | | V-17 | C-3, C-6, C-12 | E-3.2 |
+| R-32 | 햄버거 버튼 클릭 → 메뉴 표시, 재클릭 → 숨김 (`classList.toggle('active')`) | `index.html:69` | V-11 | C-6 | E-1.2 |
+| R-33 | nav 메뉴 클릭 시 해당 섹션으로 **부드러운 스크롤** | `css/style.css:100` `js/nav.js:24` | V-12 | C-11 | E-1.2 |
+| R-34 | 스크롤 **300px** 이상에서 탑 버튼 표시, 클릭 시 최상단 이동 (임계값 README 명시) | `index.html:203` `js/scroll.js:11` | V-13 | C-11 | E-1.2 |
+| R-35 | 스크롤 **60px** 이상에서 nav 배경색 변경 (임계값 README 명시) | `css/style.css:166` `js/scroll.js:11` | V-14 | C-11 | E-1.2 |
+| R-36 | 다크 모드 토글 버튼으로 테마 전환 | `index.html:63` | V-15 | C-7 | E-2.3 |
+| R-37 | 테마 설정이 **localStorage**에 저장되어 새로고침 후 유지 | `index.html:11` `js/theme.js:27` | V-15 | C-7 | E-3.6 |
+| R-38 | Intersection Observer로 스크롤 애니메이션 (threshold **0.2 이상**, README 명시) | `css/style.css:512` `js/observer.js:10` 외 1 | V-16 | C-9 | E-4.5 |
+| R-39 | Contact 폼 3필드 존재 (이름 / 이메일 / 메시지) | `index.html:157` | V-17 | C-12 | E-1.5 |
+| R-40 | 필수값 검증 — 빈 필드 제출 불가 | `js/form.js:18` | V-17 | C-6, C-12 | E-2.5 |
+| R-41 | 이메일 형식 검증 | `js/form.js:13` | V-17 | C-6, C-12 | E-2.5 |
+| R-42 | 에러 메시지가 **해당 입력 필드 근처**에 표시 | `css/style.css:454` `js/form.js:96` | V-17 | C-6, C-12 | E-2.5 |
+| R-43 | 제출 시 `preventDefault()` + 성공 메시지 표시 | `index.html:187` `js/form.js:69` 외 1 | V-17 | C-3, C-6, C-12 | E-3.2 |
 
 ### F. ES6+ 문법 & 배열 메서드
 
 | R-ID | 요구사항 | 구현 위치 | V | C | E |
 |---|---|---|---|---|---|
-| R-44 | 화살표 함수 활용 | | V-23 | C-4 | E-3.3 |
-| R-45 | 템플릿 리터럴로 HTML 동적 생성 | | V-23 | C-4, C-13 | E-3.3, E-4.2 |
-| R-46 | 구조분해 할당으로 객체/배열 값 추출 | | V-23 | C-4 | E-3.3 |
-| R-47 | `map`으로 GitHub 데이터 → HTML 카드 변환, `forEach`로 순회 | | V-19 | C-4, C-14 | E-3.3 |
+| R-44 | 화살표 함수 활용 | `js/utils.js:8` | V-23 | C-4 | E-3.3 |
+| R-45 | 템플릿 리터럴로 HTML 동적 생성 | `js/projects.js:19` | V-23 | C-4, C-13 | E-3.3, E-4.2 |
+| R-46 | 구조분해 할당으로 객체/배열 값 추출 | `js/projects.js:19` | V-23 | C-4 | E-3.3 |
+| R-47 | `map`으로 GitHub 데이터 → HTML 카드 변환, `forEach`로 순회 | `js/projects.js:61` | V-19 | C-4, C-14 | E-3.3 |
 
 ### G. 비동기 처리 & GitHub API
 
 | R-ID | 요구사항 | 구현 위치 | V | C | E |
 |---|---|---|---|---|---|
-| R-48 | `fetch` + `async/await`로 `https://api.github.com/users/codewhite7777/repos` 호출 | | V-19 | C-5 | E-3.4 |
-| R-49 | **로딩 상태** UI (스피너 또는 "로딩 중...") | | V-18 | C-5, C-6 | E-2.4 |
-| R-50 | **성공 상태** UI (카드 리스트 렌더링) | | V-19 | C-5, C-6, C-14 | E-2.4 |
-| R-51 | **에러 상태** UI ("프로젝트를 불러올 수 없습니다" + 재시도 버튼) | | V-20 | C-5, C-6 | E-2.4 |
-| R-52 | **빈 상태** UI ("표시할 프로젝트가 없습니다") | | V-21 | C-5, C-6 | E-2.4 |
-| R-53 | `try/catch`로 에러 처리 | | V-20 | C-5 | E-3.4 |
-| R-54 | 레이트 리밋 403 응답 시 에러 상태 UI가 표시됨 | | V-22 | C-10 | E-4.3 |
+| R-48 | `fetch` + `async/await`로 `https://api.github.com/users/codewhite7777/repos` 호출 | `js/projects.js:87` | V-19 | C-5 | E-3.4 |
+| R-49 | **로딩 상태** UI (스피너 또는 "로딩 중...") | `js/projects.js:54` | V-18 | C-5, C-6 | E-2.4 |
+| R-50 | **성공 상태** UI (카드 리스트 렌더링) | `js/projects.js:61` | V-19 | C-5, C-6, C-14 | E-2.4 |
+| R-51 | **에러 상태** UI ("프로젝트를 불러올 수 없습니다" + 재시도 버튼) | `js/projects.js:74` | V-20 | C-5, C-6 | E-2.4 |
+| R-52 | **빈 상태** UI ("표시할 프로젝트가 없습니다") | `js/projects.js:68` | V-21 | C-5, C-6 | E-2.4 |
+| R-53 | `try/catch`로 에러 처리 | `js/projects.js:87` | V-20 | C-5 | E-3.4 |
+| R-54 | 레이트 리밋 403 응답 시 에러 상태 UI가 표시됨 | `js/projects.js:102` | V-22 | C-10 | E-4.3 |
 
 ### H. 상태 관리 패턴 (이 과제의 핵심)
 
 | R-ID | 요구사항 | 구현 위치 | V | C | E |
 |---|---|---|---|---|---|
-| R-55 | "이벤트 → 상태 변경 → 화면 업데이트" 흐름이 **3가지 이상** 코드에서 식별 가능 | | V-23 | C-6 | E-3.5, E-4.4 |
+| R-55 | "이벤트 → 상태 변경 → 화면 업데이트" 흐름이 **3가지 이상** 코드에서 식별 가능 | `js/main.js:21` `js/state.js:9` 외 1 | V-23 | C-6 | E-3.5, E-4.4 |
 
 채택할 3흐름 (원문 예시 1~3) — 전부 `state.js`의 단일 상태를 거친다 (설계 결정 #3):
 
@@ -159,9 +159,9 @@
 
 | R-ID | 요구사항 | 구현 위치 | V | C | E |
 |---|---|---|---|---|---|
-| R-56 | GitHub Pages 배포 + 외부 접속 가능한 URL 존재 | | V-24 | C-16 | E-1.6 |
-| R-57 | 배포 URL에서 반응형·인터랙션·API·폼 검증이 모두 동작 | | V-24 | C-16 | E-1.6 |
-| R-58 | README에 설명·사용 기술·배포 URL·스크린샷 + **임계값 3개(300/60/0.2)** 명시 | | V-25 | C-16 | E-1.6 |
+| R-56 | GitHub Pages 배포 + 외부 접속 가능한 URL 존재 | GitHub Pages `main` / root | V-24 | C-16 | E-1.6 |
+| R-57 | 배포 URL에서 반응형·인터랙션·API·폼 검증이 모두 동작 | 배포 URL 검증 — V-24 | V-24 | C-16 | E-1.6 |
+| R-58 | README에 설명·사용 기술·배포 URL·스크린샷 + **임계값 3개(300/60/0.2)** 명시 | README.md | V-25 | C-16 | E-1.6 |
 
 ### 보너스 (선택 — 수행/미수행 모두 기록)
 

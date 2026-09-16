@@ -1,0 +1,22 @@
+{
+  "_note": "http://localhost:5500 에서 Chrome 자동화로 실행. 클릭은 실제 DOM 이벤트.",
+  "V-11 햄버거 토글": {
+    "열림": { "menu.active": true, "aria-expanded": "true" },
+    "닫힘": { "menu.active": false, "aria-expanded": "false" },
+    "판정": "PASS"
+  },
+  "V-15 다크 모드 + 유지": {
+    "토글후": { "data-theme": "dark", "localStorage.theme": "dark", "aria-pressed": "true" },
+    "새로고침후": { "data-theme": "dark", "비고": "head 인라인 부트스트랩이 첫 페인트 전에 적용 — FOUC 없음" },
+    "재토글": { "data-theme": "light", "localStorage.theme": "light", "aria-pressed": "false" },
+    "판정": "PASS"
+  },
+  "V-17 폼 3케이스": {
+    "빈 제출": ["이름을 입력해 주세요.", "이메일을 입력해 주세요.", "메시지를 입력해 주세요."],
+    "잘못된 이메일": { "메시지": "이메일 형식이 올바르지 않습니다. 예) name@example.com", "aria-invalid": "true" },
+    "input 재검증으로 해제": { "error.hidden": true, "aria-invalid": null },
+    "정상 제출": "메시지가 정상적으로 확인되었습니다. 빠르게 답변드리겠습니다.",
+    "페이지 새로고침 발생": false,
+    "판정": "PASS"
+  }
+}

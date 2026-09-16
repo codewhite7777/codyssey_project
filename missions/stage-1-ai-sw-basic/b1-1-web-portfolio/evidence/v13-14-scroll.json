@@ -1,0 +1,11 @@
+{
+  "_note": "실제 마우스 휠 스크롤로 측정. 프로그램 방식(window.scrollTo)은 확장 격리 컨텍스트에서 scroll 이벤트를 디스패치하지 않아 판정에 쓰지 않음.",
+  "임계값": { "헤더": 60, "탑버튼": 300 },
+  "측정": [
+    { "scrollY": 0,   "is-scrolled": false, "is-visible": false, "기대": "둘 다 off", "판정": "PASS" },
+    { "scrollY": 100, "is-scrolled": true,  "is-visible": false, "기대": "헤더만 on", "판정": "PASS" },
+    { "scrollY": 400, "is-scrolled": true,  "is-visible": true,  "기대": "둘 다 on",  "판정": "PASS" }
+  ],
+  "V-16 Intersection Observer": { "threshold": 0.2, "관측": "About/Skills/Projects 진입 시 .is-visible 부착, 이후 unobserve", "판정": "PASS" },
+  "V-12 앵커 이동": { "관측": "Projects 클릭 → 섹션 상단이 뷰포트 64px 지점(scroll-margin-top)에 정렬, 헤더에 가려지지 않음", "판정": "PASS" }
+}

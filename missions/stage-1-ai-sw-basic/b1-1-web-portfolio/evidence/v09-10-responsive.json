@@ -1,0 +1,19 @@
+{
+  "_note": "브라우저 창이 innerWidth 892px 미만으로 줄지 않아, 동일 출처 iframe(371px)에 페이지를 띄워 미디어 쿼리를 측정.",
+  "371px (모바일)": {
+    "hamburger display": "flex",
+    "nav__menu position": "absolute",
+    "nav__menu visibility": "hidden",
+    "about grid-template-columns": "324px (1열)",
+    "판정": "PASS — R-21 충족"
+  },
+  "892px 이상 (태블릿·데스크톱)": {
+    "hamburger display": "none",
+    "nav__menu position": "static",
+    "nav__menu visibility": "visible",
+    "about grid-template-columns": "240px 557px (2열)",
+    "projects-grid": "414.5px 414.5px (2열)",
+    "판정": "PASS"
+  },
+  "미해결": "모바일 폭 스크린샷 미촬영 — iframe에서는 ES 모듈이 실행되지 않아 API 카드가 없는 화면만 나옴. DevTools 기기 툴바로 직접 촬영 필요."
+}

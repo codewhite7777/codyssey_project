@@ -1,0 +1,53 @@
+# V-1~V-8 정적 검사 — 2026-09-17 06:04
+
+## V-1 폴더 구조
+./README.md
+./css/style.css
+./docs/screenshots/dark-mode.jpg
+./docs/screenshots/desktop-light.jpg
+./images/profile.svg
+./index.html
+./js/form.js
+./js/main.js
+./js/nav.js
+./js/observer.js
+./js/projects.js
+./js/scroll.js
+./js/state.js
+./js/theme.js
+./js/utils.js
+
+## V-1 외부 라이브러리 링크 (폰트 외 0건이어야 함)
+31:  <link rel="preconnect" href="https://fonts.googleapis.com" />
+32:  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+33:  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" />
+197:      <li><a href="https://github.com/codewhite7777" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+198:      <li><a href="https://github.com/codewhite7777/codyssey-b1-portfolio" target="_blank" rel="noopener noreferrer">이 저장소</a></li>
+
+## V-3 var 사용
+js/main.js:5: *                 [R-25] 모든 모듈은 const/let만 쓴다. var는 함수 스코프라 블록 밖으로
+
+## V-4 인라인 이벤트 핸들러
+0건
+
+## V-5 인라인 스타일
+0건
+
+## V-6 시맨틱 태그 (article은 JS 렌더)
+  <header> 1
+  <nav> 1
+  <main> 1
+  <section> 5
+  <footer> 1
+  <article> 1 (js/projects.js toCard)
+
+## V-7 img / alt
+  img=1 alt=1
+
+## V-8 label for ↔ input id
+for="name"
+for="email"
+for="message"
+id="name"
+id="email"
+id="message"
