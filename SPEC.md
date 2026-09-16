@@ -27,7 +27,7 @@
 ## 1. 디렉터리 구조
 
 ```
-codyssey_project/                 # 관리 모노레포 (로컬 git)
+codyssey_project/                 # 관리 모노레포 → github.com/codewhite7777/codyssey_project
 ├─ SPEC.md                        # ← 이 문서. 운영 규칙
 ├─ INDEX.md                       # 전 미션 진도 보드 (단일 진실 원천)
 ├─ templates/                     # 미션 착수 시 복사해 쓰는 원본
