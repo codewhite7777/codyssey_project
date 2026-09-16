@@ -10,9 +10,9 @@
 | 구분 | 웹 기초와 프론트엔드 |
 | 학습시간 | 80시간 · 필수 |
 | 원문 | `source/assignment.md` |
-| 제출 repo | (생성 대기 — 사용자가 직접 생성 후 URL 전달) / 브랜치 `main` |
-| 배포 URL | (미정) GitHub Pages — **하위 경로 배포이므로 자산은 전부 상대경로** |
-| 상태 | 분석 완료 · 구현 대기 |
+| 제출 repo | https://github.com/codewhite7777/codyssey-b1-portfolio / 브랜치 `main` |
+| 배포 URL | https://codewhite7777.github.io/codyssey-b1-portfolio/ — **하위 경로 배포이므로 자산은 전부 상대경로** |
+| 상태 | 설계 확정 · 골격 배포됨 · 구현 대기 |
 
 ---
 
@@ -53,8 +53,8 @@
 
 | R-ID | 요구사항 | 구현 위치 | V | C | E |
 |---|---|---|---|---|---|
-| R-1 | `index.html` / `css/` / `js/` / `images/`로 역할이 분리된 폴더 구조 | | V-1 | — | E-2.1 |
-| R-2 | 외부 스타일시트와 JS 파일이 HTML에 올바르게 연결됨 | | V-1 | — | — |
+| R-1 | `index.html` / `css/` / `js/` / `images/`로 역할이 분리된 폴더 구조 | `repo/` | V-1 | — | E-2.1 |
+| R-2 | 외부 스타일시트와 JS 파일이 HTML에 올바르게 연결됨 | `index.html:9-10` | V-1 | — | — |
 | R-3 | VS Code + Live Server로 실시간 개발 환경 구성 | | V-2 | — | — |
 
 ### B. HTML 시맨틱 마크업
