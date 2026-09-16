@@ -1,0 +1,14 @@
+{
+  "_note": "배포 URL에서 직접 검증. Chrome 자동화.",
+  "url": "https://codewhite7777.github.io/codyssey-b1-portfolio/",
+  "자산 응답": { "index.html": 200, "css/style.css": 200, "js/main.js": 200, "js/projects.js": 200, "images/profile.svg": 200, "docs/screenshots/desktop-light.jpg": 200 },
+  "상대경로": "하위 경로(/codyssey-b1-portfolio/) 배포에서 모든 자산 정상 — 절대경로 사용 0건",
+  "ES 모듈 실행": true,
+  "CSS 로드": "Inter 폰트 적용 확인",
+  "GitHub API": { "카드수": 15, "컨테이너": "projects-grid" },
+  "다크 모드": { "토글": "dark 적용", "localStorage": "dark" },
+  "햄버거": { "열림": true, "닫힘": true },
+  "폼": { "빈 제출 에러": 3, "정상 제출 성공 메시지": true },
+  "섹션": ["hero", "about", "skills", "projects", "contact"],
+  "판정": "PASS"
+}
